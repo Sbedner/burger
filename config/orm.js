@@ -7,7 +7,7 @@ var connection = require("../config/connection.js");
 // * `updateOne()`
 var orm= {
 
-Selectall: function(tableInput, cb) {
+all: function(tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
     connection.query(queryString, function(err, result) {
       if (err) {
@@ -16,7 +16,7 @@ Selectall: function(tableInput, cb) {
       cb(result);
     });
   },
-  insertOne: function(table, cols, vals, cb) {
+  create: function(table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 
     queryString += " (";
@@ -37,7 +37,7 @@ Selectall: function(tableInput, cb) {
     });
   },
   // An example of objColVals would be {name: panther, sleepy: true}
-  updateOne: function(table, objColVals, condition, cb) {
+  update: function(table, objColVals, condition, cb) {
     var queryString = "UPDATE " + table;
 
     queryString += " SET ";
@@ -54,7 +54,19 @@ Selectall: function(tableInput, cb) {
       cb(result);
     });
   },
-  
+  delete: function(table, condition, cb) {
+    var queryString = "DELETE FROM " + table;
+    queryString += " WHERE ";
+    queryString += condition;
+
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+
+      cb(result);
+    });
+  }
 };
 
 
